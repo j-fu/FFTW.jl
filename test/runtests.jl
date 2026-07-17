@@ -586,3 +586,28 @@ end
         AbstractFFTs.TestUtils.test_real_ffts(Array; copy_input=true)
     end
 end
+
+
+@testset "Avoid copy with inline version" begin
+    complexplan = plan_fft!(zeros(ComplexF64, 4))
+    realvec = [1,1,1,1]
+
+    catched_typerror=false
+    try
+        FFTW.mul!(realvec, complexplan, realvec)
+    catch e;
+        println(e,"\n")
+        catched_typerror = true
+    end
+    @test catched_typerror
+    
+    catched_typerror=false
+    try
+        complexplan * realvec 
+    catch e;
+        println(e,"\n")
+        catched_typerror = true
+    end
+    @test catched_typerror
+
+end

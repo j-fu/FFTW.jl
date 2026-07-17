@@ -832,7 +832,7 @@ function *(p::cFFTWPlan{T,K,false}, x::StridedArray{T,N}) where {T,K,N}
     return y
 end
 
-function *(p::cFFTWPlan{T,K,true}, x::StridedArray{T}) where {T,K}
+function *(p::cFFTWPlan{T,K,true}, x::AbstractArray) where {T,K}
     assert_applicable(p, x)
     unsafe_execute!(p, x, x)
     return x
@@ -1046,7 +1046,7 @@ function *(p::r2rFFTWPlan{T,K,false}, x::StridedArray{T,N}) where {T,K,N}
     return y
 end
 
-function *(p::r2rFFTWPlan{T,K,true}, x::StridedArray{T}) where {T,K}
+function *(p::r2rFFTWPlan{T,K,true}, x::AbstractArray) where {T,K}
     assert_applicable(p, x)
     unsafe_execute!(p, x, x)
     return x
