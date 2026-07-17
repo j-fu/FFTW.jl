@@ -588,7 +588,7 @@ end
 end
 
 
-@testset "Avoid copy with inline version" begin
+@testset "Ensure inline version throws with wrong type" begin
     complexplan = plan_fft!(zeros(ComplexF64, 4))
     realvec = [1,1,1,1]
 
@@ -604,6 +604,26 @@ end
     catched_typerror=false
     try
         complexplan * realvec 
+    catch e;
+        println(e,"\n")
+        catched_typerror = true
+    end
+    @test catched_typerror
+
+    complexvec=ones(ComplexF64,4)
+    realplan = FFTW.plan_r2r!(zeros(4), FFTW.REDFT10)
+    catched_typerror=false
+    try
+        FFTW.mul!(complexvec, realplan, complexvec)
+    catch e;
+        println(e,"\n")
+        catched_typerror = true
+    end
+    @test catched_typerror
+    
+    catched_typerror=false
+    try
+        realplan * complexvec 
     catch e;
         println(e,"\n")
         catched_typerror = true
