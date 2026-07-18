@@ -592,42 +592,12 @@ end
     complexplan = plan_fft!(zeros(ComplexF64, 4))
     realvec = [1,1,1,1]
 
-    catched_typerror=false
-    try
-        FFTW.mul!(realvec, complexplan, realvec)
-    catch e;
-        println(e,"\n")
-        catched_typerror = true
-    end
-    @test catched_typerror
-    
-    catched_typerror=false
-    try
-        complexplan * realvec 
-    catch e;
-        println(e,"\n")
-        catched_typerror = true
-    end
-    @test catched_typerror
+    @test_throws MethodError FFTW.mul!(realvec, complexplan, realvec)
+    @test_throws MethodError complexplan * realvec
 
     complexvec=ones(ComplexF64,4)
     realplan = FFTW.plan_r2r!(zeros(4), FFTW.REDFT10)
-    catched_typerror=false
-    try
-        FFTW.mul!(complexvec, realplan, complexvec)
-    catch e;
-        println(e,"\n")
-        catched_typerror = true
-    end
-    @test catched_typerror
-    
-    catched_typerror=false
-    try
-        realplan * complexvec 
-    catch e;
-        println(e,"\n")
-        catched_typerror = true
-    end
-    @test catched_typerror
+    @test_throws MethodError FFTW.mul!(complexvec, realplan, complexvec)
+    @test_throws MethodError realplan * complexvec 
 
 end
