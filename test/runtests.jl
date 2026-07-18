@@ -588,7 +588,7 @@ end
 end
 
 
-@testset "Ensure inline version throws with wrong type" begin
+@testset "Ensure in-place version throws with wrong type" begin
     complexplan = plan_fft!(zeros(ComplexF64, 4))
     realvec = [1,1,1,1]
 
