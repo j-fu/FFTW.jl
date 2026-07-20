@@ -504,12 +504,16 @@ function assert_applicable(p::FFTWPlan{T,K,inplace}, X::StridedArray{T}, Y::Stri
 end
 
 
-function assert_applicable(p::FFTWPlan{T}, X::AbstractArray) where T
-    throw(ArgumentError("In-place plan  FFTWPlan{$(T)} cannot be applied to a $(typeof(X))"))
+function assert_applicable(p::FFTWPlan{T,K, inplace}, X::AbstractArray) where {T,K, inplace}
+    if inplace
+        throw(ArgumentError("In-place plan  FFTWPlan{$(T)} cannot be applied to a $(typeof(X))"))
+    end
 end
 
-function assert_applicable(p::FFTWPlan{T}, X::AbstractArray, Y::AbstractArray) where T
-    throw(ArgumentError("In-place plan  FFTWPlan{$(T)} cannot be applied to a $(typeof(X))"))
+function assert_applicable(p::FFTWPlan{T, K, inplace}, X::AbstractArray, Y::AbstractArray) where {T,K, inplace}
+    if inplace
+        throw(ArgumentError("In-place plan  FFTWPlan{$(T)} cannot be applied to a $(typeof(X))"))
+    end
 end
 
 
