@@ -592,12 +592,12 @@ end
     complexplan = plan_fft!(zeros(ComplexF64, 4))
     realvec = [1,1,1,1]
 
-    @test_throws ArgumentError FFTW.mul!(realvec, complexplan, realvec)
+    @test_throws MethodError FFTW.mul!(realvec, complexplan, realvec)
     @test_throws ArgumentError complexplan * realvec
 
     complexvec=ones(ComplexF64,4)
     realplan = FFTW.plan_r2r!(zeros(4), FFTW.REDFT10)
-    @test_throws ArgumentError FFTW.mul!(complexvec, realplan, complexvec)
+    @test_throws MethodError FFTW.mul!(complexvec, realplan, complexvec)
     @test_throws ArgumentError realplan * complexvec 
 
 end

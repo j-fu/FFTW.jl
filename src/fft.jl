@@ -833,10 +833,6 @@ for (f,direction) in ((:fft,FORWARD), (:bfft,BACKWARD))
     end
 end
 
-function mul!(y::AbstractArray, p::cFFTWPlan{T}, x::AbstractArray) where T
-    throw(ArgumentError("mul!(x,::cFFTWPlan{$(T)},y) expects x and y be of type StridedArray{$(T)}"))
-end
-
 function mul!(y::StridedArray{T}, p::cFFTWPlan{T}, x::StridedArray{T}) where T
     assert_applicable(p, x, y)
     unsafe_execute!(p, x, y)
@@ -1055,10 +1051,6 @@ function mul!(y::StridedArray{T}, p::r2rFFTWPlan{T}, x::StridedArray{T}) where T
     assert_applicable(p, x, y)
     unsafe_execute!(p, x, y)
     return y
-end
-
-function mul!(y::AbstractArray, p::r2rFFTWPlan{T}, x::AbstractArray) where T
-    throw(ArgumentError("mul!(x,::r2rFFTWPlan{$(T)},y) expects x and y be of type StridedArray{$(T)}"))
 end
 
 function *(p::r2rFFTWPlan{T,K,false}, x::StridedArray{T,N}) where {T,K,N}
